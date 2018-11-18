@@ -4,6 +4,8 @@ net.createServer(function (socket)
 {
   // Identify this client
   socket.name = socket.remoteAddress + ":" + socket.remotePort 
+  
+  console.log('ip here: ' + socket.remoteAddress);
 
   // Put this new client in the list
   clients.push(socket);
