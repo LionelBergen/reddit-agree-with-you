@@ -17,3 +17,4 @@ server.on('connection', function(socket)
 });
 
 console.log('listening on port: ' + port);
+console.log(server);
