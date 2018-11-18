@@ -4,7 +4,7 @@ let http = require('http');
 
 let app = express();
 let server = http.createServer(app);
-let bayeux = new Faye.NodeAdapter({mount: '/messages', timeout: 45});
+let bayeux = new Faye.NodeAdapter({mount: '/', timeout: 45});
 
 let port = process.env.PORT || 8000;
 
