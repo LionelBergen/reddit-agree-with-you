@@ -1,20 +1,40 @@
-const dgram = require('dgram');
-const server = dgram.createSocket('udp4');
+const net = require('net');
 
-server.on('error', (err) => {
-  console.log(`server error:\n${err.stack}`);
-  server.close();
-});
+net.createServer(function (socket) 
+{
+  // Identify this client
+  socket.name = socket.remoteAddress + ":" + socket.remotePort 
 
-server.on('message', (msg, rinfo) => {
-  console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
-});
+  // Put this new client in the list
+  clients.push(socket);
 
-server.on('listening', () => {
-  const address = server.address();
-  console.log(process.env);
-  console.log(`server listening ${address.address}:${address.port}`);
-});
+  // Send a nice welcome message and announce
+  socket.write("Welcome " + socket.name + "\n");
+  broadcast(socket.name + " joined the chat\n", socket);
 
-server.bind(process.env.PORT);
-// server listening 0.0.0.0:41234
+  // Handle incoming messages from clients.
+  socket.on('data', function (data) {
+    broadcast(socket.name + "> " + data, socket);
+  });
+
+  // Remove the client from the list when it leaves
+  socket.on('end', function () {
+    clients.splice(clients.indexOf(socket), 1);
+    broadcast(socket.name + " left the chat.\n");
+  });
+  
+  // Send a message to all clients
+  function broadcast(message, sender) {
+    clients.forEach(function (client) {
+      // Don't want to send it to sender
+      if (client === sender) return;
+      client.write(message);
+    });
+    // Log it to the server output too
+    process.stdout.write(message)
+  }
+
+}).listen(5000);
+
+// Put a friendly message on the terminal of the server.
+console.log("Chat server running at port 5000\n");

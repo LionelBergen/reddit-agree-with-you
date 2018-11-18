@@ -4,7 +4,7 @@
   "description": "Reddit commentor",
   "main": "app.js",
   "dependencies": {
-    "dgram": "^1.0.1"
+    "net": "^1.0.2"
   },
   "devDependencies": {},
   "scripts": {
