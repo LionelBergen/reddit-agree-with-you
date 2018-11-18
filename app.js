@@ -1,10 +1,10 @@
 let express = require('express');
-let faye = require('faye');
+let Faye = require('faye');
 let http = require('http');
 
 let app = express();
 let server = http.createServer(app);
-let bayeux = new faye.NodeAdapter({mount: '/messages', timeout: 45});
+let bayeux = new Faye.NodeAdapter({mount: '/messages', timeout: 45});
 
 let port = process.env.PORT || 8000;
 
@@ -27,7 +27,7 @@ server.listen(port, function() {
     console.log('Listening on ' + port);
 });
 
-var client = new Faye.Client('http://localhost:3000/faye');
+var client = new Faye.Client('http://localhost: ' + port + '/faye');
 
 client.subscribe('/messages', function (newMessage) {
   console.log("New Message: ", newMessage);
