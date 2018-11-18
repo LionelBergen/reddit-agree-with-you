@@ -1,4 +1,4 @@
-let express = require('express'),
+let express = require('express');
 let faye = require('faye');
 let http = require('http');
 
