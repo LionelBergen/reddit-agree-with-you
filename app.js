@@ -1,42 +1,26 @@
-const net = require('net');
+let http = require('http');
+let socket = require('socket.io');
 
-net.createServer(function (socket) 
+let app = http.createServer(server);
+let io = io(app);
+app.listen(80);
+
+
+
+function server(req,res)
 {
-  // Identify this client
-  socket.name = socket.remoteAddress + ":" + socket.remotePort 
-  
-  console.log('ip here: ' + socket.remoteAddress);
-
-  // Put this new client in the list
-  clients.push(socket);
-
-  // Send a nice welcome message and announce
-  socket.write("Welcome " + socket.name + "\n");
-  broadcast(socket.name + " joined the chat\n", socket);
-
-  // Handle incoming messages from clients.
-  socket.on('data', function (data) {
-    broadcast(socket.name + "> " + data, socket);
-  });
-
-  // Remove the client from the list when it leaves
-  socket.on('end', function () {
-    clients.splice(clients.indexOf(socket), 1);
-    broadcast(socket.name + " left the chat.\n");
-  });
-  
-  // Send a message to all clients
-  function broadcast(message, sender) {
-    clients.forEach(function (client) {
-      // Don't want to send it to sender
-      if (client === sender) return;
-      client.write(message);
-    });
-    // Log it to the server output too
-    process.stdout.write(message)
-  }
-
-}).listen(process.env.PORT);
-
-// Put a friendly message on the terminal of the server.
-console.log("Chat server running at port " + process.env.PORT + "\n");
+    console.log('A user tried to connect to mazeserver.localtunnel.me'+req.url)
+    if(req.url == '/'){
+        console.log('Sending html...');
+        res.writeHead(200, {"Context-Type":"text/html"});
+        fs.createReadStream('./index.html').pipe(res);
+    }else if(req.url == '/pong.js'){
+        console.log('Sending JS...');
+        res.writeHead(200, {"Context-Type":"text/JavaScript"});
+        fs.createReadStream('./pong.js').pipe(res);
+    }else {
+        console.log('Error 404: file .'+req.url+' not found');
+        res.writeHead(404, {"Context-Type":"text/html"});
+        fs.createReadStream('./404.html').pipe(res);
+    }
+}

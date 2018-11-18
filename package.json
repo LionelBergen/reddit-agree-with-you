@@ -4,7 +4,8 @@
   "description": "Reddit commentor",
   "main": "app.js",
   "dependencies": {
-    "net": "^1.0.2"
+    "http": "0.0.0",
+    "socketio": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
