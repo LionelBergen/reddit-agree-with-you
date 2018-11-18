@@ -24,3 +24,5 @@ function server(req,res)
         fs.createReadStream('./404.html').pipe(res);
     }
 }
+
+console.log('listening on port: ' + process.env.PORT);
