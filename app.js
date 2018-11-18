@@ -3,7 +3,7 @@ let socket = require('socket.io');
 
 let app = http.createServer(server);
 let io = socket(app);
-app.listen(80);
+app.listen(process.env.PORT);
 
 
 
