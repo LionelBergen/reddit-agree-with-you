@@ -31,4 +31,4 @@ var client = new Faye.Client('http://localhost:3000/faye');
 
 client.subscribe('/messages', function (newMessage) {
   console.log("New Message: ", newMessage);
-});//
+});
