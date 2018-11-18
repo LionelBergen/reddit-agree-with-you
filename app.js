@@ -1,23 +1,8 @@
-let express = require('express');
-let SocketServer = require('ws').Server;
-let path = require('path');
+var faye = require('faye'),
+    http = require('http');
 
-let PORT = process.env.PORT || 3000;
-let INDEX = path.join(__dirname, 'index.html');
+var bayeux = new faye.NodeAdapter({mount: '/'}),
+    server = http.createServer();
 
-let server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
-let wss = new SocketServer({ server });
-
-wss.on('connection', (ws) => {
-  console.log('Client connected');
-  ws.on('close', () => console.log('Client disconnected'));
-});
-
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
-  });
-}, 1000);
+bayeux.attach(http);
+http.listen(8000);
