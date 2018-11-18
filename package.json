@@ -4,9 +4,10 @@
   "description": "Reddit commentor",
   "main": "app.js",
   "dependencies": {
+    "express": "^4.16.4",
     "http": "0.0.0",
-    "json-socket": "^0.3.0",
-    "net": "^1.0.2"
+    "socketio": "^1.0.0",
+    "ws": "^6.1.2"
   },
   "devDependencies": {},
   "scripts": {

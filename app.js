@@ -1,22 +1,28 @@
-let net = require('net');
-let JsonSocket = require('json-socket');
+var WebSocketServer = require("ws").Server
+var http = require("http")
+var express = require("express")
+var app = express()
+var port = process.env.PORT || 5000
 
-var port = process.env.PORT;
-var server = net.createServer(function(sock) {
-	console.log('TCP LISTENER hearing on: ' + sock.remoteAddress +':'+ sock.remotePort);
-});
+app.use(express.static(__dirname + "/"))
 
-server.listen(port);
-server.on('connection', function(socket) 
-{
-	console.log('connection!!!!!!');
-    socket = new JsonSocket(socket); //Now we've decorated the net.Socket to be a JsonSocket
-    socket.on('message', function(message) 
-	{
-        var result = message.a + message.b;
-        socket.sendEndMessage({result: result});
-    });
-});
+var server = http.createServer(app)
+server.listen(port)
 
-console.log('listening on port: ' + port);
-console.log(server);
+console.log("http server listening on %d", port)
+
+var wss = new WebSocketServer({server: server})
+console.log("websocket server created")
+
+wss.on("connection", function(ws) {
+  var id = setInterval(function() {
+    ws.send(JSON.stringify(new Date()), function() {  })
+  }, 1000)
+
+  console.log("websocket connection open")
+
+  ws.on("close", function() {
+    console.log("websocket connection close")
+    clearInterval(id)
+  })
+})
