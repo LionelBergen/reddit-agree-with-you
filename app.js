@@ -5,6 +5,11 @@ let app = http.createServer(server);
 let io = socket(app);
 app.listen(process.env.PORT);
 
+io.on('connection', (socket) => {
+  console.log('gfjklgjkfdlgjfdljgd');
+  console.log(socket);
+  let token = socket.handshake.query.token;
+});
 
 
 function server(req,res)
