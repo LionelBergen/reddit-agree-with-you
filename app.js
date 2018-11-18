@@ -2,7 +2,7 @@ let http = require('http');
 let socket = require('socket.io');
 
 let app = http.createServer(server);
-let io = io(app);
+let io = socket(app);
 app.listen(80);
 
 
