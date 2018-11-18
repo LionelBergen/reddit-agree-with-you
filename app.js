@@ -4,7 +4,7 @@ let http = require('http');
 
 let app = express();
 let server = http.createServer(app);
-let bayeux = new faye.NodeAdapter({mount: '/'});
+let bayeux = new faye.NodeAdapter({mount: '/messages'});
 
 let port = process.env.PORT || 8000;
 
@@ -18,7 +18,7 @@ bayeux.on('message', function(message) {
 	console.log('message...');
 	console.log(message);
 });
-/*
+
 app.get('/', function(req, res) {
     res.sendfile(__dirname + '/test.html');
 });
@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
 app.use(function(err, req, res, next){
     console.error(err.stack);
     res.send(500);
-});*/
+});
 
 server.listen(port, function() {
     console.log('Listening on ' + port);
