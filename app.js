@@ -4,7 +4,7 @@ let http = require('http');
 
 let app = express();
 let server = http.createServer(app);
-let bayeux = new faye.NodeAdapter({mount: '/messages'});
+let bayeux = new faye.NodeAdapter({mount: '/messages', timeout: 45});
 
 let port = process.env.PORT || 8000;
 
@@ -12,11 +12,6 @@ bayeux.attach(server);
 
 bayeux.on('handshake', function(clientId) {
     console.log('Client connected', clientId);
-});
-
-bayeux.on('message', function(message) {
-	console.log('message...');
-	console.log(message);
 });
 
 app.get('/', function(req, res) {
@@ -30,4 +25,10 @@ app.use(function(err, req, res, next){
 
 server.listen(port, function() {
     console.log('Listening on ' + port);
+});
+
+var client = new Faye.Client('http://localhost:3000/faye');
+
+client.subscribe('/messages', function (newMessage) {
+  console.log("New Message: ", newMessage);
 });
