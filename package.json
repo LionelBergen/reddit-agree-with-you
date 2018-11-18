@@ -5,7 +5,8 @@
   "main": "app.js",
   "dependencies": {
     "http": "0.0.0",
-    "socketio": "^1.0.0"
+    "json-socket": "^0.3.0",
+    "net": "^1.0.2"
   },
   "devDependencies": {},
   "scripts": {

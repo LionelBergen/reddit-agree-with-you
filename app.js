@@ -1,33 +1,19 @@
-let http = require('http');
-let socket = require('socket.io');
+let net = require('net');
+let JsonSocket = require('json-socket');
 
-let app = http.createServer(server);
-let io = socket(app);
-app.listen(process.env.PORT);
+var port = process.env.PORT;
+var server = net.createServer();
 
-io.on('connection', (socket) => {
-  console.log('gfjklgjkfdlgjfdljgd');
-  console.log(socket);
-  let token = socket.handshake.query.token;
+server.listen(port);
+server.on('connection', function(socket) 
+{
+	console.log('connection!!!!!!');
+    socket = new JsonSocket(socket); //Now we've decorated the net.Socket to be a JsonSocket
+    socket.on('message', function(message) 
+	{
+        var result = message.a + message.b;
+        socket.sendEndMessage({result: result});
+    });
 });
 
-
-function server(req,res)
-{
-    console.log('A user tried to connect to mazeserver.localtunnel.me'+req.url)
-    if(req.url == '/'){
-        console.log('Sending html...');
-        res.writeHead(200, {"Context-Type":"text/html"});
-        fs.createReadStream('./index.html').pipe(res);
-    }else if(req.url == '/pong.js'){
-        console.log('Sending JS...');
-        res.writeHead(200, {"Context-Type":"text/JavaScript"});
-        fs.createReadStream('./pong.js').pipe(res);
-    }else {
-        console.log('Error 404: file .'+req.url+' not found');
-        res.writeHead(404, {"Context-Type":"text/html"});
-        fs.createReadStream('./404.html').pipe(res);
-    }
-}
-
-console.log('listening on port: ' + process.env.PORT);
+console.log('listening on port: ' + port);
