@@ -2,7 +2,9 @@ let net = require('net');
 let JsonSocket = require('json-socket');
 
 var port = process.env.PORT;
-var server = net.createServer();
+var server = net.createServer(function(sock) {
+	console.log('TCP LISTENER hearing on: ' + sock.remoteAddress +':'+ sock.remotePort);
+});
 
 server.listen(port);
 server.on('connection', function(socket) 
