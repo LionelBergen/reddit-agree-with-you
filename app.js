@@ -28,7 +28,7 @@ server.listen(port, function() {
 });
 
 var client = new Faye.Client('http://localhost: ' + port + '/faye');
-
+//
 client.subscribe('/messages', function (newMessage) {
   console.log("New Message: ", newMessage);
 });
