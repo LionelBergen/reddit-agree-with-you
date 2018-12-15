@@ -41,6 +41,8 @@ server.listen(port, function() {
 function start()
 {
 	setInterval(postFromPooledComments, 5);
+	// Renew auth every hour.
+	setInterval(function() {RedditClient.getAuth()}, (1000 * 60 * 60));
 	subscribeAndStartPostingComments();
 }
 
