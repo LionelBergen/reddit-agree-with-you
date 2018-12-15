@@ -6,7 +6,10 @@
   "dependencies": {
     "express": "^4.16.4",
     "faye": "^1.2.4",
-    "http": "0.0.0"
+    "http": "0.0.0",
+    "querystring": "^0.2.0",
+    "reddit-oauth": "^1.1.1",
+    "snoowrap": "^1.15.2"
   },
   "devDependencies": {},
   "scripts": {
