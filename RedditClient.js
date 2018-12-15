@@ -31,8 +31,18 @@ class RedditClient
 					// Print the access token we just retrieved
 					self.accessToken = reddit.access_token;
 					
+					console.log('success: ' + success);
 					callback();
 				}
+				else
+				{
+					console.log('error.?');
+					
+				}
+			},
+			function (error) {
+				console.log('error on auth');
+				console.log(error);
 			}
 		);
 	}
