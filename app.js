@@ -37,12 +37,13 @@ server.listen(port, function() {
     console.log('Listening on ' + port);
 });
 
+var shudGetAuthAgain = false;
 
 function start()
 {
 	setInterval(postFromPooledComments, 5);
 	// Renew auth every hour. 
-	setInterval(function() {RedditClient.getAuth()}, (1000 * 60 * 60));
+	setInterval(function() {if (shudGetAuthAgain) { RedditClient.getAuth()} shudGetAuthAgain = true;}, (1000 * 60 * 60));
 	subscribeAndStartPostingComments();
 }
 
