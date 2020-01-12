@@ -67,34 +67,6 @@ class RedditClient
 			}
 		);
 	}
-	
-	getSubredditModList(subreddit, callback)
-	{
-		var url = 'https://www.reddit.com/r/' + subreddit + '/about/moderators.json?';
-		console.log('trying get mod list from url : ' + subreddit + ' url: ' + url);
-		https.get(url, (res) => {
-			var message = '';
-			res.on('data', (d) => {
-				message += d;
-			});
-			
-			res.on('end',function(){
-				if (res.statusCode != 200) 
-				{
-					callback("Api call failed with response code " + res.statusCode);
-				} 
-				else 
-				{
-					var messages = JSON.parse(message).data.children;
-					var modNamesCommaDelimitedList = messages.map(function(m) { return m.name; });
-					callback(modNamesCommaDelimitedList);
-				}
-			});
-		}).on('error', (e) => {
-			console.log('error getting subreddit: ' + subreddit);
-			console.error(e);
-		});
-	}
 }
 
 module.exports = RedditClient;

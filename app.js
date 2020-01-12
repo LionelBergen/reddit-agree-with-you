@@ -1,22 +1,25 @@
 // Local files
 require('./CommonTools.js')();
-let rClient = require('./RedditClient.js');
+const rClient = require('./RedditClient.js');
 
-let express = require('express');
-let Faye = require('faye');
-let http = require('http');
+const express = require('express');
+const Faye = require('faye');
+const http = require('http');
+
+// Re-auth every hour
+const RE_AUTHENTICATE_REDDIT = 1000 * 60 * 60;
 
 if (!process.env.REDDIT_LOGIN_USERNAME || !process.env.REDDIT_LOGIN_PASSWORD) {
   throw 'REDDIT_LOGIN_USERNAME && REDDIT_LOGIN_PASSWORD environment variables must be set!';
 }
 
-let RedditClient = new rClient(process.env.REDDIT_LOGIN_USERNAME, process.env.REDDIT_LOGIN_PASSWORD, start);
+const RedditClient = new rClient(process.env.REDDIT_LOGIN_USERNAME, process.env.REDDIT_LOGIN_PASSWORD, start);
 
-let app = express();
-let server = http.createServer(app);
-let bayeux = new Faye.NodeAdapter({mount: '/', timeout: 45});
+const app = express();
+const server = http.createServer(app);
+const bayeux = new Faye.NodeAdapter({mount: '/', timeout: 45});
 
-let port = process.env.PORT || 8000;
+const port = process.env.PORT || 8000;
 
 var lastSentAt = new Date().getTime();
 var pooledCommentsToReplyTo = [];
@@ -46,7 +49,14 @@ function start()
 {
 	setInterval(postFromPooledComments, 5);
 	// Renew auth every hour. 
-	setInterval(function() {if (shudGetAuthAgain) { RedditClient.getAuth()} shudGetAuthAgain = true;}, (1000 * 60 * 60));
+	setInterval(function() {
+    if (shudGetAuthAgain) 
+    {
+      RedditClient.getAuth()
+    } 
+    
+    shudGetAuthAgain = true;
+  }, RE_AUTHENTICATE_REDDIT);
 	subscribeAndStartPostingComments();
 }
 
