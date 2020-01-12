@@ -1,6 +1,5 @@
 let https = require('https');
 let RedditApi = require('reddit-oauth');
-let querystring = require('querystring');
 
 if (!process.env.REDDIT_APP_ID || !process.env.REDDIT_APP_SECRET) {
   throw 'REDDIT_APP_ID && REDDIT_APP_SECRET environment variables must be set!';
@@ -41,7 +40,6 @@ class RedditClient
 				else
 				{
 					console.log('error.?');
-					
 				}
 			},
 			function (error) {
