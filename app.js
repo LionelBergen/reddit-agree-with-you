@@ -6,7 +6,11 @@ let express = require('express');
 let Faye = require('faye');
 let http = require('http');
 
-let RedditClient = new rClient('agree-with-you', 'potato123', start);
+if (!process.env.REDDIT_LOGIN_USERNAME || !process.env.REDDIT_LOGIN_PASSWORD) {
+  throw 'REDDIT_LOGIN_USERNAME && REDDIT_LOGIN_PASSWORD environment variables must be set!';
+}
+
+let RedditClient = new rClient(process.env.REDDIT_LOGIN_USERNAME, process.env.REDDIT_LOGIN_PASSWORD, start);
 
 let app = express();
 let server = http.createServer(app);
