@@ -1,5 +1,4 @@
 // Local files
-require('./CommonTools.js')();
 const rClient = require('./RedditClient.js');
 
 const express = require('express');
