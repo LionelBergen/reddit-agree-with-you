@@ -1,10 +1,10 @@
-let RedditApi = require('reddit-oauth');
+const RedditApi = require('reddit-oauth');
 
 if (!process.env.REDDIT_APP_ID || !process.env.REDDIT_APP_SECRET) {
   throw 'REDDIT_APP_ID && REDDIT_APP_SECRET environment variables must be set!';
 }
 
-let reddit = new RedditApi({
+const reddit = new RedditApi({
     app_id: process.env.REDDIT_APP_ID,
     app_secret: process.env.REDDIT_APP_SECRET,
     redirect_uri: 'https://www.reddit.com/user/dusty-trash'
