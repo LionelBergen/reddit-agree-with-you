@@ -1,4 +1,3 @@
-let https = require('https');
 let RedditApi = require('reddit-oauth');
 
 if (!process.env.REDDIT_APP_ID || !process.env.REDDIT_APP_SECRET) {
