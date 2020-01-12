@@ -8,6 +8,7 @@ const http = require('http');
 // Re-auth every hour
 const REAUTHENTICATE_REDDIT = 1000 * 60 * 60;
 const MINIMUM_TIME_BETWEEN_REDDIT_COMMENTS = 1000;
+const SECS_PROCESSED_A_POOLED_COMMENT = 5;
 
 let renewRedditAuth = false;
 
@@ -43,7 +44,8 @@ server.listen(port, function() {
 
 function start()
 {
-	setInterval(postFromPooledComments, 5);
+  // If too many comments come in at once, add them to a pool to be processed during quiet periods
+	setInterval(postFromPooledComments, SECS_PROCESSED_A_POOLED_COMMENT);
   
 	// Renew auth every hour. 
 	setInterval(function() {
