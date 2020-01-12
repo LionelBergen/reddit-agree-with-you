@@ -1,46 +1,7 @@
 
 module.exports = function() {
-	this.GetUniqueArray = getUniqueArray;
 	this.GetSecondsSinceUTCTimestamp = getSecondsSinceUTCTimestamp;
 };
-
-/**
- * On push, delete existing duplicate entry, replace with new.
-*/
-function getUniqueArray(maxSize) 
-{
-	var array = new Array();
-
-	array.push = function () {
-		for (var i=0; i<this.length; i++)
-		{
-			if (this[i].id === arguments[0].id)
-			{
-				// delete the item in the array
-				this.splice(i, 1);
-				break;
-			}
-		}
-		if (maxSize && this.length > maxSize) {
-			this.shift();
-		}
-		return Array.prototype.push.apply(this,arguments);
-	}
-	
-	array.get = function(id) {
-		for (var i=0; i<this.length; i++)
-		{
-			if (this[i].id === id)
-			{
-				return this[i];
-			}
-		}
-		
-		return null;
-	}
-
-	return array;
-}
 
 function getSecondsSinceUTCTimestamp(utcTimestamp)
 {

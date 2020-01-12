@@ -18,7 +18,6 @@ let bayeux = new Faye.NodeAdapter({mount: '/', timeout: 45});
 
 let port = process.env.PORT || 8000;
 
-let subredditMostList = GetUniqueArray();
 var lastSentAt = new Date().getTime();
 var pooledCommentsToReplyTo = [];
 
