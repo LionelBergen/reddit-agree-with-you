@@ -7,6 +7,7 @@ const http = require('http');
 
 // Re-auth every hour
 const RE_AUTHENTICATE_REDDIT = 1000 * 60 * 60;
+const MINIMUM_TIME_BETWEEN_REDDIT_COMMENTS = 1000;
 
 // Better to throw an error sooner than later
 if (!process.env.REDDIT_LOGIN_USERNAME || !process.env.REDDIT_LOGIN_PASSWORD) {
@@ -25,12 +26,15 @@ const port = process.env.PORT || 8000;
 let lastSentAt = new Date().getTime();
 let pooledCommentsToReplyTo = [];
 
+const client = new Faye.Client('http://localhost: ' + port + '/faye');
+
 bayeux.attach(server);
 
 bayeux.on('handshake', function(clientId) {
     console.log('Client connected', clientId);
 });
 
+// Listen for a message containing a comment & reply message to process
 server.listen(port, function() {
     console.log('Listening on port: ' + port);
 });
@@ -62,7 +66,7 @@ function subscribeAndStartPostingComments()
 			reply = newMessage.reply;
 			newMessage = newMessage.comment;
 			
-			if (pooledCommentsToReplyTo.length == 0 && new Date().getTime() - lastSentAt > 1000)
+			if (pooledCommentsToReplyTo.length == 0 && new Date().getTime() - lastSentAt > MINIMUM_TIME_BETWEEN_REDDIT_COMMENTS)
 			{
 				processComment(newMessage, reply);
 			}
@@ -80,19 +84,26 @@ function subscribeAndStartPostingComments()
 
 function postFromPooledComments()
 {
-	if (pooledCommentsToReplyTo.length > 0 && new Date().getTime() - lastSentAt > 1000)
+	if (pooledCommentsToReplyTo.length > 0 && getCurrentTime() - lastSentAt > MINIMUM_TIME_BETWEEN_REDDIT_COMMENTS)
 	{
 		let comment = pooledCommentsToReplyTo[0];
 		
+    // Process the comment and remove it from our pool
 		processComment(comment, comment.reply);
 		pooledCommentsToReplyTo.splice(0, 1);
 	}
 }
 
-let client = new Faye.Client('http://localhost: ' + port + '/faye');
-
+/**
+ * Posts the reply to a comment and sets 'lastSendAt' variable to the current time
+*/
 function processComment(comment, reply)
 {
 	RedditClient.postComment(comment.name, reply);
-	lastSentAt = new Date().getTime();
+	lastSentAt = getCurrentTime();
+}
+
+function getCurrentTime()
+{
+  return new Date().getTime();
 }

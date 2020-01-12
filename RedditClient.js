@@ -29,20 +29,19 @@ class RedditClient
 			function (success) {
 				if (success) {
 					reddit.oAuthUrl('some_state', 'identity');
-					console.log('got access token: ' + reddit.access_token);
 					// Print the access token we just retrieved
+					console.log('got access token: ' + reddit.access_token);
 					self.accessToken = reddit.access_token;
-					
-					console.log('success: ' + success);
+          
 					callback();
 				}
 				else
 				{
-					console.log('error.?');
+					console.log('error retrieving Reddit Access Token!');
 				}
 			},
 			function (error) {
-				console.log('error on auth');
+				console.log('error on Reddit auth:');
 				console.log(error);
 			}
 		);
