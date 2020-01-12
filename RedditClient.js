@@ -24,7 +24,7 @@ class RedditClient
 	
 	getAuth(callback)
 	{
-		var self = this;
+		let self = this;
 		reddit.passAuth(
 			self.accountUsername,
 			self.accountPassword,

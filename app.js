@@ -21,8 +21,8 @@ const bayeux = new Faye.NodeAdapter({mount: '/', timeout: 45});
 
 const port = process.env.PORT || 8000;
 
-var lastSentAt = new Date().getTime();
-var pooledCommentsToReplyTo = [];
+let lastSentAt = new Date().getTime();
+let pooledCommentsToReplyTo = [];
 
 bayeux.attach(server);
 
@@ -43,7 +43,7 @@ server.listen(port, function() {
     console.log('Listening on ' + port);
 });
 
-var shudGetAuthAgain = false;
+let shudGetAuthAgain = false;
 
 function start()
 {
@@ -88,14 +88,14 @@ function postFromPooledComments()
 {
 	if (pooledCommentsToReplyTo.length > 0 && new Date().getTime() - lastSentAt > 1000)
 	{
-		var comment = pooledCommentsToReplyTo[0];
+		let comment = pooledCommentsToReplyTo[0];
 		
 		processComment(comment, comment.reply);
 		pooledCommentsToReplyTo.splice(0, 1);
 	}
 }
 
-var client = new Faye.Client('http://localhost: ' + port + '/faye');
+let client = new Faye.Client('http://localhost: ' + port + '/faye');
 
 function processComment(comment, reply)
 {
