@@ -9,6 +9,7 @@ const http = require('http');
 // Re-auth every hour
 const RE_AUTHENTICATE_REDDIT = 1000 * 60 * 60;
 
+// Better to throw an error sooner than later
 if (!process.env.REDDIT_LOGIN_USERNAME || !process.env.REDDIT_LOGIN_PASSWORD) {
   throw 'REDDIT_LOGIN_USERNAME && REDDIT_LOGIN_PASSWORD environment variables must be set!';
 }
