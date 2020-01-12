@@ -30,17 +30,8 @@ bayeux.on('handshake', function(clientId) {
     console.log('Client connected', clientId);
 });
 
-app.get('/', function(req, res) {
-    res.sendfile(__dirname + '/test.html');
-});
-
-app.use(function(err, req, res, next){
-    console.error(err.stack);
-    res.send(500);
-});
-
 server.listen(port, function() {
-    console.log('Listening on ' + port);
+    console.log('Listening on port: ' + port);
 });
 
 let shudGetAuthAgain = false;
