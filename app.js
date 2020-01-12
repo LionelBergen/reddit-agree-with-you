@@ -13,6 +13,7 @@ if (!process.env.REDDIT_LOGIN_USERNAME || !process.env.REDDIT_LOGIN_PASSWORD) {
   throw 'REDDIT_LOGIN_USERNAME && REDDIT_LOGIN_PASSWORD environment variables must be set!';
 }
 
+// Note the last argument is the start function
 const RedditClient = new rClient(process.env.REDDIT_LOGIN_USERNAME, process.env.REDDIT_LOGIN_PASSWORD, start);
 
 const app = express();
@@ -39,6 +40,7 @@ let shudGetAuthAgain = false;
 function start()
 {
 	setInterval(postFromPooledComments, 5);
+  
 	// Renew auth every hour. 
 	setInterval(function() {
     if (shudGetAuthAgain) 
@@ -48,6 +50,7 @@ function start()
     
     shudGetAuthAgain = true;
   }, RE_AUTHENTICATE_REDDIT);
+  
 	subscribeAndStartPostingComments();
 }
 
