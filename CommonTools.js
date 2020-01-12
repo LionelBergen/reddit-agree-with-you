@@ -1,27 +1,8 @@
 
 module.exports = function() {
-	this.GetArrayWithLimitedLength = getArrayWithLimitedLength;
 	this.GetUniqueArray = getUniqueArray;
 	this.GetSecondsSinceUTCTimestamp = getSecondsSinceUTCTimestamp;
 };
-
-function getArrayWithLimitedLength(length, allowDuplicates) 
-{
-	var array = new Array();
-
-	array.push = function () {
-		if (!allowDuplicates && this.includes(arguments[0]))
-		{
-			return null;
-		}
-		if (this.length > length) {
-			this.shift();
-		}
-		return Array.prototype.push.apply(this,arguments);
-	}
-
-	return array;
-}
 
 /**
  * On push, delete existing duplicate entry, replace with new.
