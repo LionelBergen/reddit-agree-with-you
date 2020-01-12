@@ -12,7 +12,6 @@ const SECS_PROCESSED_A_POOLED_COMMENT = 5;
 
 let renewRedditAuth = false;
 
-console.log(process.env);
 // Better to throw an error sooner than later
 if (!process.env.REDDIT_LOGIN_USERNAME || !process.env.REDDIT_LOGIN_PASSWORD) {
   throw 'REDDIT_LOGIN_USERNAME && REDDIT_LOGIN_PASSWORD environment variables must be set!';
