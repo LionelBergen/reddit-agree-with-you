@@ -6,8 +6,10 @@ const Faye = require('faye');
 const http = require('http');
 
 // Re-auth every hour
-const RE_AUTHENTICATE_REDDIT = 1000 * 60 * 60;
+const REAUTHENTICATE_REDDIT = 1000 * 60 * 60;
 const MINIMUM_TIME_BETWEEN_REDDIT_COMMENTS = 1000;
+
+let renewRedditAuth = false;
 
 // Better to throw an error sooner than later
 if (!process.env.REDDIT_LOGIN_USERNAME || !process.env.REDDIT_LOGIN_PASSWORD) {
@@ -39,21 +41,19 @@ server.listen(port, function() {
     console.log('Listening on port: ' + port);
 });
 
-let shudGetAuthAgain = false;
-
 function start()
 {
 	setInterval(postFromPooledComments, 5);
   
 	// Renew auth every hour. 
 	setInterval(function() {
-    if (shudGetAuthAgain) 
+    if (renewRedditAuth) 
     {
       RedditClient.getAuth()
     } 
     
-    shudGetAuthAgain = true;
-  }, RE_AUTHENTICATE_REDDIT);
+    renewRedditAuth = true;
+  }, REAUTHENTICATE_REDDIT);
   
 	subscribeAndStartPostingComments();
 }
