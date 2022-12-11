@@ -4,7 +4,7 @@
   "description": "Reddit commentor",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "faye": "^1.2.4",
     "http": "0.0.0",
     "reddit-oauth": "^1.1.1"
