@@ -2,3 +2,4 @@
 run-locally-notes.txt
 README.md
 .env
+/node_modules
