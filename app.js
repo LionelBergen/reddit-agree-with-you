@@ -18,8 +18,8 @@ if (!process.env.REDDIT_LOGIN_USERNAME || !process.env.REDDIT_LOGIN_PASSWORD) {
 }
 
 const redditAuth = {
-  username: process.env.REDDIT_USERNAME,
-  password: process.env.REDDIT_PASSWORD,
+  username: process.env.REDDIT_LOGIN_USERNAME,
+  password: process.env.REDDIT_LOGIN_PASSWORD,
   appId: process.env.REDDIT_APP_ID,
   appSecret: process.env.REDDIT_APP_SECRET,
   redirectUrl: 'https://github.com/LionelBergen/reddit-agree-with-you',
@@ -105,6 +105,19 @@ function processComment(RedditClient, comment, reply) {
 
 function getCurrentTime() {
   return new Date().getTime();
+}
+
+function isValidAuthModal(authModal) {
+  for (const property in authModal) {
+    if (property !== 'accessToken' && !authModal[property]) {
+      console.error(`${property} is not set!`);
+    }
+  }
+  return authModal.username && authModal.password && authModal.appId && authModal.appSecret;
+}
+
+if (!isValidAuthModal(redditAuth)) {
+	throw 'Missing required environment variable(s)!';
 }
 
 (async () => {
