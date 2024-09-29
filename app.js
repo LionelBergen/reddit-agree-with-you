@@ -108,7 +108,9 @@ function getCurrentTime() {
 }
 
 (async () => {
+	console.log('About to create authenticated client');
   const RedditClient = await CreateAuthedClient({ redditAuth });
+	console.log('Starting program')
   startIntervals(RedditClient);
   subscribeAndStartProcessingComments(RedditClient);
 })();

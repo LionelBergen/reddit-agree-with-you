@@ -8,7 +8,7 @@
     "express": "4.21.0",
     "faye": "1.4.0",
     "dotenv": "16.4.5",
-    "reddit-simple-client": "2.0.0-beta.4"
+    "reddit-simple-client": "2.0.0-beta.5"
   },
   "devDependencies": {
     "eslint": "8.57.0",
