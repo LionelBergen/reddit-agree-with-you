@@ -2,6 +2,7 @@
   "name": "reddit-agree-with-you",
   "version": "2.0.0-beta.1",
   "description": "Reddit commentor",
+  "type": "module",
   "main": "app.js",
   "dependencies": {
     "express": "4.21.0",
@@ -18,5 +19,8 @@
     "lint_auto_fix": "eslint --fix --ignore-path .gitignore ."
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": ">=12.0.0"
+  },
 }
