@@ -1,17 +1,21 @@
 {
   "name": "reddit-agree-with-you",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.1",
   "description": "Reddit commentor",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.17.1",
-    "faye": "^1.2.4",
-    "http": "0.0.0",
-    "reddit-oauth": "^1.1.1"
+    "express": "4.21.0",
+    "faye": "1.4.0",
+    "reddit-simple-client": "2.0.0-beta.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "8.57.0",
+    "eslint-config-eslinter": "1.0.0"
+  },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "eslint": "eslint --ignore-path .gitignore .",
+    "lint_auto_fix": "eslint --fix --ignore-path .gitignore ."
   },
   "author": "",
   "license": "ISC"
