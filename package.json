@@ -1,12 +1,13 @@
 {
   "name": "reddit-agree-with-you",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "Reddit commentor",
   "type": "module",
   "main": "app.js",
   "dependencies": {
     "express": "4.21.0",
     "faye": "1.4.0",
+    "dotenv": "16.4.5",
     "reddit-simple-client": "2.0.0-beta.4"
   },
   "devDependencies": {
@@ -22,5 +23,5 @@
   "license": "ISC",
   "engines": {
     "node": ">=12.0.0"
-  },
+  }
 }

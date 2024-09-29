@@ -3,6 +3,7 @@ import { CreateAuthedClient } from 'reddit-simple-client';
 import express from 'express';
 import Faye from 'faye';
 import http from 'http';
+import 'dotenv/config';
 
 // Re-auth every hour
 const REAUTHENTICATE_REDDIT = 1000 * 60 * 60;
@@ -35,7 +36,7 @@ const port = process.env.PORT || 8000;
 let lastSentAt = new Date().getTime();
 const pooledCommentsToReplyTo = [];
 
-const client = new Faye.Client('http://localhost: ' + port + '/faye');
+const client = new Faye.Client(`http://localhost:${port}/faye`);
 
 bayeux.attach(server);
 
@@ -69,7 +70,7 @@ function startIntervals(RedditClient) {
 function subscribeAndStartProcessingComments(RedditClient) {
   client.subscribe('/messages', function(newMessage) {
     if (newMessage.comment) {
-      reply = newMessage.reply;
+      const reply = newMessage.reply;
       newMessage = newMessage.comment;
 
       if (pooledCommentsToReplyTo.length == 0
