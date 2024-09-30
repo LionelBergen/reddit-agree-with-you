@@ -60,7 +60,7 @@ function startIntervals(RedditClient) {
   // Renew auth every hour.
   setInterval(function() {
     if (renewRedditAuth) {
-      RedditClient.getAuth();
+      RedditClient.resetAuth();
     }
 
     renewRedditAuth = true;
